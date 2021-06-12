@@ -14,6 +14,7 @@ public class ShapeSelectionManager : MonoBehaviour
     void Start()
     {
         shapeList = new List<GameObject>();
+        selectedShape = null;
     }
 
     // Update is called once per frame
@@ -27,15 +28,26 @@ public class ShapeSelectionManager : MonoBehaviour
         GameObject shape = Instantiate(shapePrefab, transform, false);
         Shape shapeScript = shape.GetComponent<Shape>();
         shapeScript.SetSprite(sprite);
-        selectedShape = shape;
         shapeList.Add(shape);
         ChangeSelection(shape);
         return shape;
     }
 
+    public void RemoveShape()
+    {
+        if (selectedShape)
+        {
+            shapeList.Remove(selectedShape);
+            Destroy(selectedShape);
+            ChangeSelection(null);
+        }
+    }
+
+    //TODO maybe this can just disable the previous and enable the current
     public void ChangeSelection(GameObject selectedShape)
     {
-        foreach( GameObject shape in shapeList)
+        this.selectedShape = selectedShape;
+        foreach ( GameObject shape in shapeList)
         {
             Shape shapeScript = shape.GetComponent<Shape>();
             if (shape == selectedShape)
@@ -47,5 +59,10 @@ public class ShapeSelectionManager : MonoBehaviour
                 shapeScript.DisableHighlight();
             }
         }
+    }
+
+    public GameObject GetSelectedShape()
+    {
+        return selectedShape;
     }
 }
