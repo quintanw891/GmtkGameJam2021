@@ -7,6 +7,7 @@ public class ScreenShotHandler : MonoBehaviour
     private static ScreenShotHandler instance;
     private Camera _camera;
     private bool takeScreenshotOnNextFrame;
+    private string fileName;
 
     private void Awake()
     {
@@ -27,7 +28,7 @@ public class ScreenShotHandler : MonoBehaviour
             renderResult.ReadPixels(rect, 0, 0);
 
             byte[] byteArray = renderResult.EncodeToPNG();
-            System.IO.File.WriteAllBytes(Application.dataPath + "/CameraScreenshot.png", byteArray);
+            System.IO.File.WriteAllBytes(Application.dataPath + string.Format("/{0}.png", this.fileName), byteArray);
 
             Debug.Log(string.Format("ScreenshotHandler::Saved screenshot to {0}", Application.dataPath));
 
@@ -36,14 +37,15 @@ public class ScreenShotHandler : MonoBehaviour
         }
     }
 
-    private void _TakeScreenshot(int width, int height)
+    private void _TakeScreenshot(int width, int height, string fileName)
     {
         _camera.targetTexture = RenderTexture.GetTemporary(width, height, 16);
+        this.fileName = fileName;
         takeScreenshotOnNextFrame = true;
     }
 
-    public static void TakeScreenshot(int width, int height)
+    public static void TakeScreenshot(int width, int height, string fileName)
     {
-        instance._TakeScreenshot(width, height);
+        instance._TakeScreenshot(width, height, fileName);
     }
 }
