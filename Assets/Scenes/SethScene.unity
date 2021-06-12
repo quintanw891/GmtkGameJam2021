@@ -379,6 +379,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac20461e5fc74aae8d1d029ea7cad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  largeShapes:
+  - {fileID: 11400000, guid: 5f0c3716d0b1d45108f1fe744045249a, type: 2}
+  - {fileID: 11400000, guid: 64866267cf5d146e282f568aa7531842, type: 2}
+  - {fileID: 11400000, guid: b4c19bb20369446b9af9d027941ef9ff, type: 2}
   largeShapeSprites:
   - {fileID: 21300000, guid: c24a0810c32ca475a8133ef4b98d6b13, type: 3}
   - {fileID: 21300000, guid: 3f460b876baf94f3892bcb42d14ce751, type: 3}
