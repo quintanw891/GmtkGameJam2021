@@ -7,19 +7,17 @@ using UnityEngine.EventSystems;
 public class SmallShapeSpawner : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     [SerializeField]
-    private Sprite userImage;
+    private Sprite sprite;
     [SerializeField]
-    private GameObject shapePrefab;
+    private ShapeSelectionManager shapeSelectionManager;
 
-    private List<GameObject> shapeList;
     private GameObject selectedShape;
 
     // Start is called before the first frame update
     void Start()
     {
         Image image = GetComponent<Image>();
-        image.sprite = userImage;
-        shapeList = new List<GameObject>();
+        image.sprite = sprite;
         selectedShape = null;
     }
 
@@ -32,11 +30,7 @@ public class SmallShapeSpawner : MonoBehaviour, IDragHandler, IPointerUpHandler,
     public void OnPointerDown(PointerEventData eventData)
     {
         //Debug.Log("Mouse Down");
-        //GameObject shape = Instantiate(shapePrefab, transform.position, Quaternion.identity);
-        GameObject shape = Instantiate(shapePrefab, transform.parent, false);
-        shape.GetComponent<Image>().sprite = userImage;
-        selectedShape = shape;
-        shapeList.Add(shape);
+        selectedShape = shapeSelectionManager.AddShape(sprite);
     }
 
     public void OnPointerUp(PointerEventData eventData)
