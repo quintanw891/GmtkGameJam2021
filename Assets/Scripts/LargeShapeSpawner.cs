@@ -8,7 +8,7 @@ public class LargeShapeSpawner : MonoBehaviour
     public List<LargeShapeData> largeShapes;
     public bool spawned = false;
 
-    void Start()
+    private void Start()
     {
         // Set the random seed
         Random.InitState(System.DateTime.Now.Millisecond);
@@ -22,42 +22,30 @@ public class LargeShapeSpawner : MonoBehaviour
         GetComponent<Image>().sprite = largeShapes[randNum - 1].sprite;
         spawned = true;
 
+        // Save data to be passed to other scenes
+        PlayerPrefs.SetString("ShapeName", largeShapes[randNum - 1].name);
+        PlayerPrefs.SetFloat("TimeToComplete", largeShapes[randNum - 1].timeToComplete);
+        PlayerPrefs.SetInt("ShapeThreshold", largeShapes[randNum - 1].shapeThreshold);
+
+        // TODO: Temporary, just for testing
+        PlayerPrefs.SetInt("SmallShapesUsed", 12);
+
         ScreenShotHandler.TakeScreenshot(500, 500, "original");
 
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown("z"))
         {
             ScreenShotHandler.TakeScreenshot(500, 500, "latest");
-            StartCoroutine(getPixelsOutOfBounds());          
+            // Add Score Calculator Component..it will automatically start to calculate score
+            ScoreCalculator sc = gameObject.AddComponent(typeof(ScoreCalculator)) as ScoreCalculator;
         }
     }
 
-    private IEnumerator getPixelsOutOfBounds()
+    private void OnDisable()
     {
-        var oldPath = string.Format("{0}/original.png", Application.dataPath);
-        var newPath = string.Format("{0}/latest.png", Application.dataPath);
-        yield return new WaitUntil(() => System.IO.File.Exists(oldPath) & System.IO.File.Exists(newPath));
-
-        int count = 0;
-        var bOld = System.IO.File.ReadAllBytes(oldPath);
-        var bNew = System.IO.File.ReadAllBytes(newPath);
-        Texture2D tOld = new Texture2D(500, 500);
-        tOld.LoadImage(bOld);
-        Texture2D tNew = new Texture2D(500, 500);
-        tNew.LoadImage(bNew);
-
-        for (int y = 0; y < tOld.height; y++)
-        {
-            for (int x = 0; x < tOld.width; x++)
-            {
-                if (tOld.GetPixel(x, y) != tNew.GetPixel(x, y)) count++;
-            }
-        }
-
-        Debug.Log(string.Format("ScreenShotHandler::getPixelsOutOfBounds()::{0} pixels not matching", count));
-        yield return count;
+        // TBD
     }
 }
