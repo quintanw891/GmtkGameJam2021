@@ -89,3 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userImage: {fileID: 0}
+  shapePrefab: {fileID: 5461967116157717334, guid: 162912497d3841c488bda447494b14d8, type: 3}
