@@ -6,12 +6,8 @@ using UnityEngine.UI;
 public class LargeShapeSpawner : MonoBehaviour
 {
     public List<Sprite> largeShapeSprites;
+    public bool spawned = false;
 
-    private void Awake()
-    {
-
-    }
-    // Start is called before the first frame update
     void Start()
     {
         // Set the random seed
@@ -25,11 +21,39 @@ public class LargeShapeSpawner : MonoBehaviour
         // Load the large shape of the random number index
         GetComponent<Image>().sprite = largeShapeSprites[randNum - 1];
 
+        spawned = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown("z"))
+            ScreenShotHandler.TakeScreenshot(500, 500);
+    }
+
+    // Just a test function to experiment with pixel counting
+    private void PaintAlphaRed()
+    {
+        Texture2D old_texture = GetComponent<Image>().sprite.texture;
+        Texture2D texture = new Texture2D(old_texture.width, old_texture.height);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, old_texture.width, old_texture.height), Vector2.zero);
+        GetComponent<Image>().sprite = sprite;
+
+        int area = old_texture.height * old_texture.width;
+        int blk_counter = 0;
+        for (int y = 0; y < old_texture.height; y++)
+        {
+            for (int x = 0; x < old_texture.width; x++)
+            {
+                if (old_texture.GetPixel(x, y) == Color.black)
+                {
+                    blk_counter++;
+                    texture.SetPixel(x, y, Color.black);
+                }
+                else texture.SetPixel(x, y, Color.red);
+            }
+        }
+
+        texture.Apply();
+        Debug.Log(string.Format("LargeShapeSpawner::{0}/{1} pixels are black. Painted the rest red.", blk_counter, area));
     }
 }
