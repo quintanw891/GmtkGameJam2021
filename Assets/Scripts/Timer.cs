@@ -6,24 +6,36 @@ using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField]
     private float length;
+    public bool triggered { get; private set; }
+    private bool started;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        started = false;
+        triggered = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        int minutes = Mathf.FloorToInt(length / 60);
-        int seconds = Mathf.FloorToInt(length % 60);
-        GetComponent<Text>().text = minutes.ToString("00") + ":" + seconds.ToString("00");
-        if ((length -= Time.deltaTime) < 0)
+        if (started)
         {
-            SceneManager.LoadScene("ResultsScene");
+            int minutes = Mathf.FloorToInt(length / 60);
+            int seconds = Mathf.FloorToInt(length % 60);
+            GetComponent<Text>().text = minutes.ToString("00") + ":" + seconds.ToString("00");
+            if ((length -= Time.deltaTime) < 0)
+            {
+                triggered = true;
+                started = false;
+            }
         }
+    }
+
+    public void StartTimer(float length)
+    {
+        this.length = length;
+        started = true;
     }
 }

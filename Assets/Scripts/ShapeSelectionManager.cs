@@ -65,4 +65,9 @@ public class ShapeSelectionManager : MonoBehaviour
     {
         return selectedShape;
     }
+
+    public int GetShapeCount()
+    {
+        return shapeList.Count;
+    }
 }

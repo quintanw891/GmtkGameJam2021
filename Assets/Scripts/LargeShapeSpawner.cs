@@ -7,6 +7,8 @@ public class LargeShapeSpawner : MonoBehaviour
 {
     public List<LargeShapeData> largeShapes;
     public bool spawned = false;
+    [SerializeField]
+    private Timer timer;
 
     private void Start()
     {
@@ -27,25 +29,9 @@ public class LargeShapeSpawner : MonoBehaviour
         PlayerPrefs.SetFloat("TimeToComplete", largeShapes[randNum - 1].timeToComplete);
         PlayerPrefs.SetInt("ShapeThreshold", largeShapes[randNum - 1].shapeThreshold);
 
-        // TODO: Temporary, just for testing
-        PlayerPrefs.SetInt("SmallShapesUsed", 12);
+        timer.StartTimer(largeShapes[randNum - 1].timeToComplete);
 
         ScreenShotHandler.TakeScreenshot(500, 500, "original");
-
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown("z"))
-        {
-            ScreenShotHandler.TakeScreenshot(500, 500, "latest");
-            // Add Score Calculator Component..it will automatically start to calculate score
-            ScoreCalculator sc = gameObject.AddComponent(typeof(ScoreCalculator)) as ScoreCalculator;
-        }
-    }
-
-    private void OnDisable()
-    {
-        // TBD
-    }
+    
 }

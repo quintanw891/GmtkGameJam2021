@@ -42,6 +42,6 @@ public class SmallShapeSpawner : MonoBehaviour, IDragHandler, IPointerUpHandler,
     public void OnDrag(PointerEventData eventData)
     {
         //Debug.Log("Drag");
-        selectedShape.transform.position = eventData.position;
+        selectedShape.transform.localPosition = eventData.position;
     }
 }

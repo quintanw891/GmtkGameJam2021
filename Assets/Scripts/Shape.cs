@@ -6,17 +6,6 @@ using UnityEngine.EventSystems;
 
 public class Shape : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -33,7 +22,7 @@ public class Shape : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDow
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position;
+        transform.localPosition = eventData.position;
         //Debug.Log("Drag");
     }
 
