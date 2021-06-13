@@ -11,6 +11,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private ShapeSelectionManager ssManager;
 
+    private void Awake()
+    {
+        if (System.IO.File.Exists(string.Format("{0}/original.png", Application.dataPath)))
+            System.IO.File.Delete(string.Format("{0}/original.png", Application.dataPath));
+
+        if (System.IO.File.Exists(string.Format("{0}/latest.png", Application.dataPath)))
+            System.IO.File.Delete(string.Format("{0}/latest.png", Application.dataPath));
+
+        #if UNITY_EDITOR
+                UnityEditor.AssetDatabase.Refresh();
+        #endif
+    }
+
     public void Update()
     {
         if (timer.triggered)
@@ -22,6 +35,10 @@ public class GameManager : MonoBehaviour
     public void GoToResultsScreen()
     {
         PlayerPrefs.SetInt("SmallShapesUsed", ssManager.GetShapeCount());
+        ScreenShotHandler.TakeScreenshot(500, 500, "latest");
+        #if UNITY_EDITOR
+                UnityEditor.AssetDatabase.Refresh();
+        #endif
         SceneManager.LoadScene("ResultsScene");
     }
 

@@ -32,6 +32,9 @@ public class LargeShapeSpawner : MonoBehaviour
         timer.StartTimer(largeShapes[randNum - 1].timeToComplete);
 
         ScreenShotHandler.TakeScreenshot(500, 500, "original");
+        #if UNITY_EDITOR
+                UnityEditor.AssetDatabase.Refresh();
+        #endif
     }
-    
+
 }
