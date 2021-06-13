@@ -70,7 +70,7 @@ public class ScoreCalculator : MonoBehaviour
                 var oldPixel = tOld.GetPixel(x, y);
                 var newPixel = tNew.GetPixel(x, y);
                 if (oldPixel.a != newPixel.a) count++;
-                else if (newPixel != Color.white) count++;
+                else if (oldPixel == Color.black & newPixel != Color.white) count++;
             }
         }
 
