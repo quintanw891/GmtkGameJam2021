@@ -43,8 +43,8 @@ public class ScoreCalculator : MonoBehaviour
             Debug.Log(string.Format("ScoreCalculator::CalculatScore()::{0} more shapes used than necessary, -{1} points", Mathf.Abs(shapesAboveThreshold), 50 * Mathf.Abs(shapesAboveThreshold)));
 
         }
-        Debug.Log(string.Format("ScoreCalculator::CalculatScore()::{0} pixels not matching, -{1} points", pixelsNotMatching, pixelsNotMatching));
-        finalScore -= pixelsNotMatching;
+        Debug.Log(string.Format("ScoreCalculator::CalculatScore()::{0} pixels not matching, -{1} points", pixelsNotMatching, (int)(pixelsNotMatching * 0.1)));
+        finalScore -= (int)(pixelsNotMatching * 0.1);
         Debug.Log(string.Format("ScoreCalculator::CalculatScore()::Final score is {0}", finalScore));
 
     }
@@ -74,7 +74,11 @@ public class ScoreCalculator : MonoBehaviour
             }
         }
 
-        pixelsNotMatching = count;
+        float margin = (float)count / (tOld.width * tOld.height);
+        margin *= 100;
+
+        // If more than 5 pct of pixels not matching...
+        if (margin >= 5f) pixelsNotMatching = count;
 
         CalculateScore();
         finished = true;
