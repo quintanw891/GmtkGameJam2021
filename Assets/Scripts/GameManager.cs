@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     public void GoToResultsScreen()
     {
         PlayerPrefs.SetInt("SmallShapesUsed", ssManager.GetShapeCount());
-        //ssManager.ChangeSelection(null);
+        ssManager.ChangeSelection(null);
         ScreenShotHandler.TakeScreenshot(500, 500, "latest");
         #if UNITY_EDITOR
                 UnityEditor.AssetDatabase.Refresh();
