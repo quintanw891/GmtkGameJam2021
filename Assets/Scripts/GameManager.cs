@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToResultsScreen()
     {
-        PlayerPrefs.SetInt("ShapesUsed", ssManager.GetShapeCount());
+        PlayerPrefs.SetInt("SmallShapesUsed", ssManager.GetShapeCount());
         SceneManager.LoadScene("ResultsScene");
     }
 
