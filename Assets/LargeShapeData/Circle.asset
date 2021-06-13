@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Circle
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 278949ea2167ea94eaf83c95564abdeb, type: 3}
-  timeToComplete: 300
-  shapeThreshold: 3
+  timeToComplete: 30
+  shapeThreshold: 1

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreCalculator : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class ScoreCalculator : MonoBehaviour
     private int pixelsNotMatching;
     private int shapesAboveThreshold;
     private int finalScore;
+
+    [SerializeField]
+    private float extraShapePenalty;
+    [SerializeField]
+    private GameObject results;
 
     private void Awake()
     {
@@ -33,7 +39,7 @@ public class ScoreCalculator : MonoBehaviour
         }
     }
 
-    private void CalculateScore()
+    /*private void CalculateScore()
     {
         int shapesUsed = PlayerPrefs.GetInt("SmallShapesUsed");
         shapesAboveThreshold = PlayerPrefs.GetInt("ShapeThreshold") - shapesUsed;
@@ -47,13 +53,17 @@ public class ScoreCalculator : MonoBehaviour
         finalScore -= (int)(pixelsNotMatching * 0.1);
         Debug.Log(string.Format("ScoreCalculator::CalculatScore()::Final score is {0}", finalScore));
 
-    }
+    }*/
 
     private IEnumerator GetPixelsNotMatching()
     {
         var oldPath = string.Format("{0}/original.png", Application.dataPath);
         var newPath = string.Format("{0}/latest.png", Application.dataPath);
         yield return new WaitUntil(() => System.IO.File.Exists(oldPath) & System.IO.File.Exists(newPath));
+
+        int totalPossible = 0;
+        int filled = 0;
+        int spilled = 0;
 
         int count = 0;
         var bOld = System.IO.File.ReadAllBytes(oldPath);
@@ -69,11 +79,55 @@ public class ScoreCalculator : MonoBehaviour
             {
                 var oldPixel = tOld.GetPixel(x, y);
                 var newPixel = tNew.GetPixel(x, y);
-                if (oldPixel.a != newPixel.a) count++;
-                else if (oldPixel == Color.black & newPixel != Color.white) count++;
+                /*if (oldPixel.a != newPixel.a)
+                {
+                    count++;
+                }
+                else if (oldPixel == Color.black & newPixel != Color.white)
+                {
+                    count++;
+                }*/
+                if (oldPixel == Color.black)
+                {
+                    totalPossible++;
+                    if (newPixel == Color.white)
+                    {
+                        filled++;
+                    }
+                }
+                else
+                {
+                    if (newPixel == Color.white)
+                    {
+                        spilled++;
+                    }
+                }
             }
         }
 
+        Debug.Log("filled " + filled);
+        Debug.Log("spiled " + spilled);
+        Debug.Log("totalPossible " + totalPossible);
+
+        float fillPercent = ((float)filled / (float)totalPossible) * 100f;         //percent filled
+        fillPercent = (fillPercent >= 95) ? 100 : fillPercent;  //...with leniency
+
+        float spillPercent = ((float)spilled / (float)totalPossible) * 100f;     //percent spilled
+        spillPercent = (spillPercent <= 5) ? 0 : spillPercent;  //...with leniency
+
+        Debug.Log("Fill " + fillPercent + "%");
+        Debug.Log("Spill " + spillPercent + "%");
+        int extra = PlayerPrefs.GetInt("SmallShapesUsed") - PlayerPrefs.GetInt("ShapeThreshold");
+        extra = (extra < 0) ? 0 : extra;
+        Debug.Log("Extra " + extra);
+        float score = (fillPercent - spillPercent) - extra * extraShapePenalty;
+        score = (score < 0) ? 0 : score;
+
+        results.transform.Find("Text").gameObject.GetComponent<Text>().text = string.Format("Your creation...\n\nFilled the image by:\t\t\t\t\t\t{0}%\nSpilled outside the image by:\t\t\t{1}%\nUsed extra shapes:\t\t\t\t\t\t{2}\n\nYour score is:\t\t\t\t\t\t{3}",
+            fillPercent.ToString("000"), spillPercent.ToString("000"), extra, score.ToString("000"));   
+        //string.Format("HP:  {0}", player.getHealth());
+
+        /*
         float margin = (float)count / (tOld.width * tOld.height);
         margin *= 100;
 
@@ -82,6 +136,7 @@ public class ScoreCalculator : MonoBehaviour
 
         CalculateScore();
         finished = true;
+        */
     }
 
     private Sprite Paint(Texture2D old_texture, Color target, Color replacement)
