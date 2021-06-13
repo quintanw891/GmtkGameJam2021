@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
                 UnityEditor.AssetDatabase.Refresh();
         #endif
-        //SceneManager.LoadScene("ResultsScene");
+        SceneManager.LoadScene("ResultsScene");
     }
 
 }

@@ -1219,6 +1219,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f0c3716d0b1d45108f1fe744045249a, type: 2}
   - {fileID: 11400000, guid: 64866267cf5d146e282f568aa7531842, type: 2}
   - {fileID: 11400000, guid: b4c19bb20369446b9af9d027941ef9ff, type: 2}
+  - {fileID: 11400000, guid: f445e54533b1843d6aceb89651abff1f, type: 2}
   spawned: 0
   timer: {fileID: 1628192194}
 --- !u!114 &1016584302

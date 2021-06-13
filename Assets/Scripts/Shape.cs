@@ -45,28 +45,4 @@ public class Shape : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDow
     {
         transform.Find("Highlight").gameObject.SetActive(true);
     }
-
-    private Sprite Paint(Texture2D old_texture, Color target, Color replacement)
-    {
-        Texture2D texture = new Texture2D(old_texture.width, old_texture.height);
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, old_texture.width, old_texture.height), Vector2.zero);
-
-        for (int y = 0; y < old_texture.height; y++)
-        {
-            for (int x = 0; x < old_texture.width; x++)
-            {
-                if (old_texture.GetPixel(x, y) == target)
-                {
-                    texture.SetPixel(x, y, replacement);
-                }
-                else
-                {
-                    texture.SetPixel(x, y, old_texture.GetPixel(x, y));
-                }
-            }
-        }
-
-        texture.Apply();
-        return sprite;
-    }
 }
