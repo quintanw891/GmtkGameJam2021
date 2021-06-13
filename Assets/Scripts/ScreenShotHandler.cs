@@ -8,11 +8,23 @@ public class ScreenShotHandler : MonoBehaviour
     private Camera _camera;
     private bool takeScreenshotOnNextFrame;
     private string fileName;
+    [SerializeField]
+    private GameObject UI;
+    [SerializeField]
+    private ShapeSelectionManager ssManager;
 
     private void Awake()
     {
         instance = this;
         _camera = gameObject.GetComponent<Camera>();
+    }
+
+    private void Update()
+    {
+        if (takeScreenshotOnNextFrame)
+        {
+            UI.SetActive(false);
+        }
     }
 
     private void OnPostRender()
@@ -34,6 +46,7 @@ public class ScreenShotHandler : MonoBehaviour
 
             RenderTexture.ReleaseTemporary(renderTexture);
             _camera.targetTexture = null;
+            UI.SetActive(true);
         }
     }
 
