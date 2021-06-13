@@ -22,7 +22,9 @@ public class Shape : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDow
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.localPosition = eventData.position;
+        var point = Camera.main.ScreenToWorldPoint(eventData.position);
+        point.z = 0f;
+        transform.position = point;
         //Debug.Log("Drag");
     }
 
