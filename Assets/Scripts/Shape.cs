@@ -9,7 +9,7 @@ public class Shape : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDow
     
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log("Mouse Down");
+        Debug.Log("Mouse Down");
         GameObject shapeSelectionManager = transform.parent.gameObject;
         ShapeSelectionManager managerScript = shapeSelectionManager.GetComponent<ShapeSelectionManager>();
         managerScript.ChangeSelection(transform.gameObject);

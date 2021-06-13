@@ -30,18 +30,20 @@ public class SmallShapeSpawner : MonoBehaviour, IDragHandler, IPointerUpHandler,
     public void OnPointerDown(PointerEventData eventData)
     {
         //Debug.Log("Mouse Down");
-        selectedShape = shapeSelectionManager.AddShape(sprite);
+        selectedShape = shapeSelectionManager.AddShape(sprite, eventData.pressPosition);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        var point = Camera.main.ScreenToWorldPoint(eventData.position);
+        point.z = 0f;
+        selectedShape.transform.position = point;
+        //Debug.Log("Drag");
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         //Debug.Log("Mouse Up");
         selectedShape = null;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        //Debug.Log("Drag");
-        selectedShape.transform.localPosition = eventData.position;
     }
 }

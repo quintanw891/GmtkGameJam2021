@@ -16,11 +16,17 @@ public class GameManager : MonoBehaviour
         if (System.IO.File.Exists(string.Format("{0}/original.png", Application.dataPath)))
             System.IO.File.Delete(string.Format("{0}/original.png", Application.dataPath));
 
+        if (System.IO.File.Exists(string.Format("{0}/original.png.meta", Application.dataPath)))
+            System.IO.File.Delete(string.Format("{0}/original.png.meta", Application.dataPath));
+
         if (System.IO.File.Exists(string.Format("{0}/latest.png", Application.dataPath)))
             System.IO.File.Delete(string.Format("{0}/latest.png", Application.dataPath));
 
-        #if UNITY_EDITOR
-                UnityEditor.AssetDatabase.Refresh();
+        if (System.IO.File.Exists(string.Format("{0}/latest.png.meta", Application.dataPath)))
+            System.IO.File.Delete(string.Format("{0}/latest.png.meta", Application.dataPath));
+
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
         #endif
     }
 
@@ -40,7 +46,7 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
                 UnityEditor.AssetDatabase.Refresh();
         #endif
-        SceneManager.LoadScene("ResultsScene");
+        //SceneManager.LoadScene("ResultsScene");
     }
 
 }

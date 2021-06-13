@@ -23,9 +23,11 @@ public class ShapeSelectionManager : MonoBehaviour
         
     }
 
-    public GameObject AddShape(Sprite sprite)
+    public GameObject AddShape(Sprite sprite, Vector3 position)
     {
-        GameObject shape = Instantiate(shapePrefab, transform, false);
+        var point = Camera.main.ScreenToWorldPoint(position);
+        point.z = 0f;
+        GameObject shape = Instantiate(shapePrefab, point, Quaternion.identity, transform);
         Shape shapeScript = shape.GetComponent<Shape>();
         shapeScript.SetSprite(sprite);
         shapeList.Add(shape);

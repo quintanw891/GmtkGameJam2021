@@ -10,8 +10,6 @@ public class ScreenShotHandler : MonoBehaviour
     private string fileName;
     [SerializeField]
     private GameObject UI;
-    [SerializeField]
-    private ShapeSelectionManager ssManager;
 
     private void Awake()
     {
